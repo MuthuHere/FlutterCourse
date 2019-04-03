@@ -3,9 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app/product_manager.dart';
 
 void main() {
-  debugPaintSizeEnabled = true;
-  debugPaintBaselinesEnabled = true;
-  debugPaintPointersEnabled = true;
+//  debugPaintSizeEnabled = true;
+//  debugPaintBaselinesEnabled = true;
+//  debugPaintPointersEnabled = true;
   runApp(MyApp());
 }
 

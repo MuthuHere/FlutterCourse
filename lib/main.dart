@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/pages/home.dart';
 import 'package:flutter_app/product_manager.dart';
 
 void main() {
@@ -21,15 +22,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.deepOrange,
           brightness: Brightness.light,
           accentColor: Colors.deepPurple),
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "Easy List",
-              textAlign: TextAlign.center,
-            ),
-
-          ),
-          body: ProductManager("Food Tester")),
+      home: HomePage(),
     );
   }
 }

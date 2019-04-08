@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/pages/auth.dart';
 import 'package:flutter_app/pages/home.dart';
 import 'package:flutter_app/product_manager.dart';
 
@@ -22,7 +23,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.deepOrange,
           brightness: Brightness.light,
           accentColor: Colors.deepPurple),
-      home: HomePage(),
+      home: AuthPage(),
     );
   }
 }

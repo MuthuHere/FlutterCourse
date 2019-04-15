@@ -34,7 +34,29 @@ class ProductDetails extends StatelessWidget {
                     .of(context)
                     .accentColor,
                 child: Text('DELETE'),
-                onPressed: () => Navigator.pop(context, true),
+                onPressed: () {
+                  showDialog(context: context,builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Are you sure?'),
+                      content: Text('This action cannot be undone!'),
+                      actions: <Widget>[
+                        RaisedButton(
+                          child: Text('DISCARD'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        RaisedButton(
+                          child: Text('CONTINUE'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context, true);
+                          },
+                        )
+                      ],
+                    );
+                  });
+                },
               ),
             )
           ],

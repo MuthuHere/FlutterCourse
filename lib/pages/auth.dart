@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/home.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _AuthState();
+  }
+}
+
+class _AuthState extends State<AuthPage> {
+  String _username, _password;
+  bool _acceptTerms=false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,18 +29,39 @@ class AuthPage extends StatelessWidget {
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(hintText: 'Username'),
+                    onChanged: (String value) {
+                      setState(() {
+                        _username = value;
+                      });
+                    },
                   ),
                   TextField(
+                    onChanged: (String value) {
+                      setState(() {
+                        _password = value;
+                      });
+                    },
                     scrollPadding: EdgeInsets.all(5.0),
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
                     ),
                   ),
+                  SwitchListTile(
+                    value:_acceptTerms,
+                    title: Text('Accept Terms'),
+                    onChanged: (bool value){
+                      setState(() {
+                        _acceptTerms = value;
+                      });
+                    },
+                  ),
                   RaisedButton(
                     child: Text('LOGIN'),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, "/");
+                      print("Username==> " + _username +
+                          " <===== password =====>" + _password);
+                      Navigator.pushReplacementNamed(context, "/home");
                     },
                   )
                 ],

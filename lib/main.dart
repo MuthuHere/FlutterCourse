@@ -3,9 +3,10 @@ import 'package:flutter_app/details/product_details.dart';
 import 'package:flutter_app/pages/auth.dart';
 import 'package:flutter_app/pages/home.dart';
 import 'package:flutter_app/pages/products_admin.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
-
+  //debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
@@ -14,7 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   List<Map<String, dynamic>> _products = [];
 
   void _addProduct(Map<String, dynamic> product) {
@@ -39,7 +39,8 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/': (BuildContext context) => AuthPage(),
           '/home': (BuildContext context) => HomePage(_products),
-          '/admin': (BuildContext context) => ProductAdminPage( _addProduct, _deleteProduct),
+          '/admin': (BuildContext context) =>
+              ProductAdminPage(_addProduct, _deleteProduct),
         },
         onGenerateRoute: (RouteSettings settings) {
           final List<String> productElement = settings.name.split('/');
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
               builder: (BuildContext context) => ProductDetails(
                     _products[index]['title'],
                     _products[index]['image'],
+                    _products[index]['description'],
                   ),
             );
           }
@@ -62,8 +64,7 @@ class _MyAppState extends State<MyApp> {
         },
         onUnknownRoute: (RouteSettings settings) {
           return MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  HomePage(_products));
+              builder: (BuildContext context) => HomePage(_products));
         });
   }
 }

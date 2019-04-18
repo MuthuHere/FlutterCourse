@@ -22,12 +22,13 @@ class ProductAdminPage extends StatelessWidget {
                 automaticallyImplyLeading: false,
               ),
               ListTile(
+                leading: Icon(Icons.shop_two),
                 title: Text(
                   "ALL Products",
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.pushReplacementNamed(context, "/");
+                  Navigator.pushReplacementNamed(context, "/home");
                 },
               )
             ],

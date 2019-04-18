@@ -4,8 +4,9 @@ import 'dart:async';
 class ProductDetails extends StatelessWidget {
   final String title;
   final String imageUrl;
+  final String description;
 
-  ProductDetails(this.title, this.imageUrl);
+  ProductDetails(this.title, this.imageUrl, this.description);
 
   @override
   Widget build(BuildContext context) {
@@ -25,37 +26,62 @@ class ProductDetails extends StatelessWidget {
             Image.asset(imageUrl),
             Container(
               padding: EdgeInsets.all(10.0),
-              child: Text(title),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontFamily: 'Oswald',
+                  fontSize: 26.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.5, vertical: 2.5),
+                child: Text(description),
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.5, vertical: 2.5),
+                child: Text(description),
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
             ),
             Container(
               padding: EdgeInsets.all(10.0),
-              child: RaisedButton(
-                color: Theme
-                    .of(context)
-                    .accentColor,
-                child: Text('DELETE'),
+              child: IconButton(
+                icon: Icon(Icons.delete),
+                color: Theme.of(context).accentColor,
                 onPressed: () {
-                  showDialog(context: context,builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Are you sure?'),
-                      content: Text('This action cannot be undone!'),
-                      actions: <Widget>[
-                        RaisedButton(
-                          child: Text('DISCARD'),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        RaisedButton(
-                          child: Text('CONTINUE'),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context, true);
-                          },
-                        )
-                      ],
-                    );
-                  });
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Are you sure?'),
+                          content: Text('This action cannot be undone!'),
+                          actions: <Widget>[
+                            RaisedButton(
+                              child: Text('DISCARD'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            RaisedButton(
+                              child: Text('DISCARD'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context, true);
+                              },
+                            )
+                          ],
+                        );
+                      });
                 },
               ),
             )

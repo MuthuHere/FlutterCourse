@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_app/widget/product/price_tag.dart';
+
 class ProductDetails extends StatelessWidget {
   final String title;
   final String imageUrl;
   final String description;
+
 
   ProductDetails(this.title, this.imageUrl, this.description);
 
@@ -24,16 +27,25 @@ class ProductDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.asset(imageUrl),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontFamily: 'Oswald',
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.bold,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: 'Oswald',
+                      fontSize: 26.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
+                PriceTag(
+                  5.0.toString(),
+                ),
+              ],
             ),
             Container(
               child: Padding(
@@ -44,14 +56,15 @@ class ProductDetails extends StatelessWidget {
             Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.5, vertical: 2.5),
-                child: Text(description),
+                child: Text(
+                  "Paradigm Mall, Selangor, Malaysia",
+                ),
               ),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                ),
-                borderRadius: BorderRadius.circular(4.0),
-              ),
+                  border: Border.all(
+                    color: Colors.grey,
+                  ),
+                  borderRadius: BorderRadius.circular(4.0)),
             ),
             Container(
               padding: EdgeInsets.all(10.0),

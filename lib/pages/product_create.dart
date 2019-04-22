@@ -19,10 +19,14 @@ class _ProductCreateState extends State<ProductCreatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final double deviceWidth = MediaQuery.of(context).size.width;
+    final double targetWidth = deviceWidth > 550.0 ? 500 : deviceWidth * 0.9;
+    final double targetPadding = deviceWidth - targetWidth;
     return Container(
       child: Card(
         margin: EdgeInsets.all(15.0),
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
           children: <Widget>[
             TextField(
               decoration: InputDecoration(labelText: "Product Title"),
@@ -55,7 +59,6 @@ class _ProductCreateState extends State<ProductCreatePage> {
             SizedBox(height: 15.0),
             RaisedButton(
               padding: EdgeInsets.all(2.0),
-              color: Theme.of(context).accentColor,
               textColor: Colors.white,
               child: Text('Save'),
               onPressed: () {

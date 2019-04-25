@@ -7,7 +7,10 @@ class ProductAdminPage extends StatelessWidget {
   final Function addProduct;
   final Function deleteProduct;
 
-  ProductAdminPage(this.addProduct, this.deleteProduct);
+ final List<Map<String, dynamic>> _products ;
+
+
+  ProductAdminPage(this.addProduct, this.deleteProduct,this._products);
 
   _buildSideDrawer(BuildContext context) {
    return Drawer(
@@ -53,7 +56,7 @@ class ProductAdminPage extends StatelessWidget {
         ),
         body: TabBarView(children: <Widget>[
           ProductCreatePage(addProduct),
-          ProductListPage()
+          ProductListPage(this._products)
         ]),
       ),
     );

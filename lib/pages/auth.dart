@@ -8,7 +8,17 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthState extends State<AuthPage> {
-  String _username, _password;
+  GlobalKey<FormState> _globalKey = GlobalKey();
+
+  final String regexForEmail =
+      r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+
+  final Map<String, dynamic> _formField = {
+    "email": null,
+    'password': null,
+    'isChecked': false
+  };
+
   bool _acceptTerms = false;
 
   DecorationImage _buildBackgroundImage() {
@@ -21,47 +31,60 @@ class _AuthState extends State<AuthPage> {
   }
 
   Widget _buildUserNameTextField() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
           hintText: 'Username', filled: true, fillColor: Colors.white),
       textInputAction: TextInputAction.next,
       focusNode: FocusNode(),
-      onChanged: (String value) {
-        setState(() {
-          _username = value;
-        });
+      validator: (String value) {
+        if (value.isEmpty || !RegExp(regexForEmail).hasMatch(value)) {
+          return 'Username required & should be an Email';
+        }
+      },
+      onSaved: (String value) {
+        _formField['email'] = value;
       },
     );
   }
 
   Widget _buildPasswordTextField() {
-    return TextField(
+    return TextFormField(
       textInputAction: TextInputAction.done,
-      onChanged: (String value) {
-        setState(() {
-          _password = value;
-        });
+      validator: (String value) {
+        if (value.isEmpty || value.length < 6) {
+          return 'Password required & 6+ chars';
+        }
+      },
+      onSaved: (String value) {
+        _formField['password'] = value;
       },
       scrollPadding: EdgeInsets.all(5.0),
       obscureText: true,
       decoration: InputDecoration(
-          hintText: 'Password', filled: true, fillColor: Colors.white),
+        hintText: 'Password',
+        filled: true,
+        fillColor: Colors.white,
+      ),
     );
   }
 
   Widget _buildAcceptSwitch() {
     return SwitchListTile(
-      value: _acceptTerms,
+      value: _formField['isChecked'],
       title: Text('Accept Terms'),
       onChanged: (bool value) {
         setState(() {
-          _acceptTerms = value;
+          _formField['isChecked'] = value;
         });
       },
     );
   }
 
   void _btnSubmitTapped() {
+    if (!_globalKey.currentState.validate() || !_formField['isChecked']) {
+      return;
+    }
+    _globalKey.currentState.save();
     Navigator.pushReplacementNamed(context, "/home");
   }
 
@@ -76,30 +99,33 @@ class _AuthState extends State<AuthPage> {
         title: Text("Login"),
       ),
       body: Center(
-        child: Container(
+        child: Form(
+          key: _globalKey,
           child: Container(
-            decoration: BoxDecoration(
-              image: _buildBackgroundImage(),
-            ),
-            padding: EdgeInsets.all(15.0),
             child: Container(
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                child: Container(
-                  width: targetWidth,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      _buildUserNameTextField(),
-                      SizedBox(height: 10.0),
-                      _buildPasswordTextField(),
-                      _buildAcceptSwitch(),
-                      RaisedButton(
-                        child: Text('LOGIN'),
-                        onPressed: _btnSubmitTapped,
-                      )
-                    ],
+              decoration: BoxDecoration(
+                image: _buildBackgroundImage(),
+              ),
+              padding: EdgeInsets.all(15.0),
+              child: Container(
+                alignment: Alignment.center,
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: targetWidth,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        _buildUserNameTextField(),
+                        SizedBox(height: 10.0),
+                        _buildPasswordTextField(),
+                        _buildAcceptSwitch(),
+                        RaisedButton(
+                          child: Text('LOGIN'),
+                          onPressed: _btnSubmitTapped,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

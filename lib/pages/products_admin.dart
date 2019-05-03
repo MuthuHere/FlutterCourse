@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/home.dart';
-import 'package:flutter_app/pages/product_create.dart';
+import 'package:flutter_app/pages/product_edit.dart';
 import 'package:flutter_app/pages/product_list.dart';
 
 class ProductAdminPage extends StatelessWidget {
   final Function addProduct;
   final Function deleteProduct;
+  final Function updateProduct;
 
- final List<Map<String, dynamic>> _products ;
+  final List<Map<String, dynamic>> _products;
 
-
-  ProductAdminPage(this.addProduct, this.deleteProduct,this._products);
+  ProductAdminPage(this.addProduct, this.deleteProduct, this._products,this.updateProduct);
 
   _buildSideDrawer(BuildContext context) {
-   return Drawer(
+    return Drawer(
       child: Column(
         children: <Widget>[
           AppBar(
@@ -55,8 +54,8 @@ class ProductAdminPage extends StatelessWidget {
           ]),
         ),
         body: TabBarView(children: <Widget>[
-          ProductCreatePage(addProduct),
-          ProductListPage(this._products)
+          ProductEditPage(addProduct: addProduct),
+          ProductListPage(this._products,updateProduct)
         ]),
       ),
     );

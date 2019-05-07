@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/helper/ensure-visible.dart';
+import 'package:flutter_app/models/product-model.dart';
 
 class ProductEditPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
   int productIndex;
 
-  final Map<String, dynamic> product;
+  final Product product;
 
-  ProductEditPage({this.addProduct, this.updateProduct, this.product,this.productIndex});
+  ProductEditPage(
+      {this.addProduct, this.updateProduct, this.product, this.productIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -22,29 +25,34 @@ class _ProductEditState extends State<ProductEditPage> {
     'price': null,
     'image': 'assets/food.jpg'
   };
+  final _titleFocusNode = new FocusNode();
 
   final GlobalKey<FormState> _globalKey = GlobalKey();
 
   Widget _buildProductTitle() {
-    return TextFormField(
-      decoration: InputDecoration(labelText: "Product Title"),
-      initialValue: widget.product == null ? '' : widget.product['title'],
-      keyboardType: TextInputType.text,
-      validator: (String value) {
-        if (value.isEmpty || value.length < 5) {
-          return "Title Required & should be 5+ Characters";
-        }
-      },
-      onSaved: (String value) {
-        _formData['title'] = value;
-      },
+    return EnsureVisibleWhenFocused(
+      focusNode: _titleFocusNode,
+      child: TextFormField(
+        focusNode: _titleFocusNode,
+        decoration: InputDecoration(labelText: "Product Title"),
+        initialValue: widget.product == null ? '' : widget.product.title,
+        keyboardType: TextInputType.text,
+        validator: (String value) {
+          if (value.isEmpty || value.length < 5) {
+            return "Title Required & should be 5+ Characters";
+          }
+        },
+        onSaved: (String value) {
+          _formData['title'] = value;
+        },
+      ),
     );
   }
 
   Widget _buildProductDescription() {
     return TextFormField(
       decoration: InputDecoration(labelText: "Product Description"),
-      initialValue: widget.product == null ? '' : widget.product['description'],
+      initialValue: widget.product == null ? '' : widget.product.description,
       keyboardType: TextInputType.text,
       maxLines: 4,
       validator: (String value) {
@@ -63,7 +71,7 @@ class _ProductEditState extends State<ProductEditPage> {
       decoration: InputDecoration(labelText: "Product Price"),
       keyboardType: TextInputType.number,
       initialValue:
-          widget.product == null ? '' : widget.product['price'].toString(),
+      widget.product == null ? '' : widget.product.price.toString(),
       validator: (String value) {
         if (value.isEmpty || double.tryParse(value) == null) {
           return "Price Required & should be number";
@@ -82,21 +90,36 @@ class _ProductEditState extends State<ProductEditPage> {
     _globalKey.currentState.save();
 
     if (widget.product == null) {
-      widget.addProduct(_formData);
+      widget.addProduct(
+        Product(
+            title: _formData['title'],
+            description: _formData['description'],
+            price: _formData['price'],
+            image: _formData['image']),
+      );
     } else {
-      widget.updateProduct(widget.productIndex,_formData);
+      widget.updateProduct(widget.productIndex,
+        Product(
+            title: _formData['title'],
+            description: _formData['description'],
+            price: _formData['price'],
+            image: _formData['image']),
+      );
     }
 
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, '/home'
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final double deviceWidth = MediaQuery.of(context).size.width;
+  Widget _buildPageContent() {
+    final double deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     final double targetWidth = deviceWidth > 550.0 ? 500 : deviceWidth * 0.9;
     final double targetPadding = deviceWidth - targetWidth;
 
-    final Widget pageContent = GestureDetector(
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
@@ -122,14 +145,19 @@ class _ProductEditState extends State<ProductEditPage> {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget pageContent = _buildPageContent();
 
     return widget.product == null
         ? pageContent
         : Scaffold(
-            appBar: AppBar(
-              title: Text('Edit Product'),
-            ),
-            body: pageContent,
-          );
+      appBar: AppBar(
+        title: Text('Edit Product'),
+      ),
+      body: pageContent,
+    );
   }
 }

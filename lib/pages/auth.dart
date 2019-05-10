@@ -32,6 +32,7 @@ class _AuthState extends State<AuthPage> {
 
   Widget _buildUserNameTextField() {
     return TextFormField(
+      keyboardType: TextInputType.emailAddress ,
       decoration: InputDecoration(
           hintText: 'Username', filled: true, fillColor: Colors.white),
       textInputAction: TextInputAction.next,

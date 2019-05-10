@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/product-model.dart';
-import 'package:flutter_app/products.dart';
+import 'package:flutter_app/widget/product/products.dart';
 
 class HomePage extends StatelessWidget {
 
-  final List<Product> products;
 
-  HomePage(this.products);
 
   _buildSideDrawer(BuildContext context){
    return Drawer(
@@ -50,7 +48,7 @@ class HomePage extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Products(products),
+      body: Products(),
     );
   }
 }

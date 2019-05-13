@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/product-model.dart';
 import 'package:flutter_app/widget/product/products.dart';
+import 'package:scoped_model/scoped_model.dart';
+import '../scoped_medels/products.dart';
+
 
 class HomePage extends StatelessWidget {
 
 
-
-  _buildSideDrawer(BuildContext context){
-   return Drawer(
+  _buildSideDrawer(BuildContext context) {
+    return Drawer(
       child: Column(
         children: <Widget>[
           AppBar(
@@ -35,13 +37,22 @@ class HomePage extends StatelessWidget {
       drawer: _buildSideDrawer(context),
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.favorite,
-              color: Colors.white,
-            ),
-            onPressed: (){},
-          )
+
+          ScopedModelDescendant<ProductsModel>(
+              builder: (BuildContext context, Widget child,
+                  ProductsModel model) {
+                return IconButton(
+                  icon: Icon(
+                    model.displayFavoritesOnly ? Icons.favorite : Icons
+                        .favorite_border,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    model.toggleDisplayMode();
+                  },
+                );
+              })
+
         ],
         title: Text(
           "Easy List",

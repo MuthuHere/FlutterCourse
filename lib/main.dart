@@ -3,7 +3,6 @@ import 'package:flutter_app/details/product_details.dart';
 import 'package:flutter_app/pages/auth.dart';
 import 'package:flutter_app/pages/home.dart';
 import 'package:flutter_app/pages/products_admin.dart';
-import 'package:flutter_app/scoped_medels/products.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_app/scoped_medels/main.dart';
 

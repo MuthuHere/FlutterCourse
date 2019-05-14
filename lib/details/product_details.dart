@@ -22,12 +22,12 @@ class ProductDetails extends StatelessWidget {
         builder: (BuildContext context, Widget child, MainModel model) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(model.products[productIndex].title),
+              title: Text(model.allProducts[productIndex].title),
             ),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset(model.products[productIndex].image),
+                Image.asset(model.allProducts[productIndex].image),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,7 +35,7 @@ class ProductDetails extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        model.products[productIndex].title,
+                        model.allProducts[productIndex].title,
                         style: TextStyle(
                           fontFamily: 'Oswald',
                           fontSize: 26.0,
@@ -52,7 +52,7 @@ class ProductDetails extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 4.5, vertical: 2.5),
-                    child: Text(model.products[productIndex].description),
+                    child: Text(model.allProducts[productIndex].description),
                   ),
                 ),
                 Container(

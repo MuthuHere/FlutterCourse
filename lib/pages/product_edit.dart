@@ -75,20 +75,20 @@ class _ProductEditState extends State<ProductEditPage> {
     );
   }
 
-  void _submitForm(Function addProduct, Function updateProduct,
+  void _submitForm(
+      Function addProduct, Function updateProduct, Function setSelectedProduct,
       [int selectedIndex]) {
     if (!_globalKey.currentState.validate()) {
       return;
     }
     _globalKey.currentState.save();
-
-    addProduct(
-      _formData['title'],
-      _formData['description'],
-      _formData['image'],
-      _formData['price'],
-    );
     if (selectedIndex == null) {
+      addProduct(
+        _formData['title'],
+        _formData['description'],
+        _formData['image'],
+        _formData['price'],
+      );
     } else {
       updateProduct(
         _formData['title'],
@@ -98,7 +98,7 @@ class _ProductEditState extends State<ProductEditPage> {
       );
     }
 
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, '/home').then((_) => setSelectedProduct(null));
   }
 
   Widget _buildSubmitButton() {
@@ -108,7 +108,7 @@ class _ProductEditState extends State<ProductEditPage> {
           padding: EdgeInsets.all(2.0),
           textColor: Colors.white,
           child: Text('Save'),
-          onPressed: () => _submitForm(model.addProduct, model.updateProduct,
+          onPressed: () => _submitForm(model.addProduct, model.updateProduct,model.selectProduct,
               model.selectedProductIndex),
         );
       },

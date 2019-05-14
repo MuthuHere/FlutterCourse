@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/scoped_medels/products.dart';
+import 'package:flutter_app/scoped_medels/main.dart';
 import 'dart:async';
 
 import 'package:flutter_app/widget/product/price_tag.dart';
@@ -18,8 +18,8 @@ class ProductDetails extends StatelessWidget {
         Navigator.pop(context, false);
         return Future.value(false);
       },
-      child: ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+      child: ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
           return Scaffold(
             appBar: AppBar(
               title: Text(model.products[productIndex].title),

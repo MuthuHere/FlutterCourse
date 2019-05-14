@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/product-model.dart';
 import 'package:flutter_app/widget/product/products.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../scoped_medels/products.dart';
+import '../scoped_medels/main.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -38,9 +37,9 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         actions: <Widget>[
 
-          ScopedModelDescendant<ProductsModel>(
+          ScopedModelDescendant<MainModel>(
               builder: (BuildContext context, Widget child,
-                  ProductsModel model) {
+                  MainModel model) {
                 return IconButton(
                   icon: Icon(
                     model.displayFavoritesOnly ? Icons.favorite : Icons

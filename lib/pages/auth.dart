@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/scoped_medels/main.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -25,14 +27,14 @@ class _AuthState extends State<AuthPage> {
     return DecorationImage(
       fit: BoxFit.cover,
       colorFilter:
-          ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+      ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
       image: AssetImage('assets/background.jpg'),
     );
   }
 
   Widget _buildUserNameTextField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress ,
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           hintText: 'Username', filled: true, fillColor: Colors.white),
       textInputAction: TextInputAction.next,
@@ -81,17 +83,21 @@ class _AuthState extends State<AuthPage> {
     );
   }
 
-  void _btnSubmitTapped() {
+  void _btnSubmitTapped(Function login) {
     if (!_globalKey.currentState.validate() || !_formField['isChecked']) {
       return;
     }
     _globalKey.currentState.save();
+    login(_formField['email'],_formField['password']);
     Navigator.pushReplacementNamed(context, "/home");
   }
 
   @override
   Widget build(BuildContext context) {
-    final double deviceWidth = MediaQuery.of(context).size.width;
+    final double deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     final double targetWidth = deviceWidth > 550 ? 500.0 : deviceWidth * 0.9;
 
@@ -121,10 +127,17 @@ class _AuthState extends State<AuthPage> {
                         SizedBox(height: 10.0),
                         _buildPasswordTextField(),
                         _buildAcceptSwitch(),
-                        RaisedButton(
-                          child: Text('LOGIN'),
-                          onPressed: _btnSubmitTapped,
-                        )
+
+                        ScopedModelDescendant<MainModel>(
+                          builder: (BuildContext context, Widget child,
+                              MainModel model) {
+                            return RaisedButton(
+                              child: Text('LOGIN'),
+                              onPressed:()=> _btnSubmitTapped(model.login),
+                            );
+                          },),
+
+
                       ],
                     ),
                   ),

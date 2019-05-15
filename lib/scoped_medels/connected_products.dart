@@ -1,6 +1,8 @@
 import 'package:flutter_app/models/product-model.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../models/user.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 mixin ConnectedProductsModel on Model {
   List<Product> _products = [];
@@ -9,15 +11,33 @@ mixin ConnectedProductsModel on Model {
 
   void addProduct(
       String title, String description, String image, double price) {
-    final Product newProduct = new Product(
-        title: title,
-        description: description,
-        price: price,
-        image: image,
-        email: _authendicationUser.email,
-        userID: _authendicationUser.id);
-    _products.add(newProduct);
-    notifyListeners();
+    final Map<String, dynamic> productData = {
+      "title": title,
+      "description": description,
+      "image":
+          'http://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/foodie0315-philadelphia.jpg?itok=YMsUdwdF',
+      "price": price,
+      "userEmail": _authendicationUser.email,
+      "userID": _authendicationUser.id,
+    };
+    http
+        .post('https://flutter-products-e88ac.firebaseio.com/products.json',
+            body: json.encode(productData))
+        .then((http.Response response) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      final Product newProduct = new Product(
+          id: responseData['name'],
+          title: title,
+          description: description,
+          price: price,
+          image: image,
+          email: _authendicationUser.email,
+          userID: _authendicationUser.id);
+
+      _products.add(newProduct);
+      notifyListeners();
+    });
   }
 }
 
@@ -73,6 +93,31 @@ mixin ProductsModel on ConnectedProductsModel {
   void deleteProduct() {
     _products.removeAt(selectedProductIndex);
     notifyListeners();
+  }
+
+  void fetchProduct() {
+    http
+        .get('https://flutter-products-e88ac.firebaseio.com/products.json')
+        .then((http.Response response) {
+      final List<Product> productList = [];
+
+      final Map<String, dynamic> productData = json.decode(response.body);
+
+      productData.forEach((String productID,dynamic productData) {
+        final Product product = Product(
+            id: productID,
+            title: productData['title'],
+            description: productData['description'],
+            price: productData['price'],
+            image: productData['image'],
+            email: productData['userEmail'],
+            userID: productData['userID']);
+
+        productList.add(product);
+      });
+      _products = productList;
+      notifyListeners();
+    });
   }
 
   void toggleProductFavoriteStatus() {

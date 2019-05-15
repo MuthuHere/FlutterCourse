@@ -27,7 +27,7 @@ class ProductDetails extends StatelessWidget {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset(model.allProducts[productIndex].image),
+                Image.network(model.allProducts[productIndex].image),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
